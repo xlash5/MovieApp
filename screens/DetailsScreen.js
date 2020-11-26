@@ -21,31 +21,11 @@ class DetailsScreen extends Component {
 
 
     componentDidMount() {
-        if (this.state.type === 'tv') {
-            this.fetchTvData();
-        } else {
-            this.fetchMovieData();
-        };
+        this.fetchData();
     };
 
-    fetchTvData() {
-        fetch(BASE_URL + 'tv/' + this.state.id + API_KEY, {
-            method: 'GET'
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                this.setState({
-                    data: responseJson,
-                    loadingData: false,
-                })
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
-
-    fetchMovieData() {
-        fetch(BASE_URL + 'movie/' + this.state.id + API_KEY, {
+    fetchData() {
+        fetch(BASE_URL + `${this.state.type}/` + this.state.id + API_KEY, {
             method: 'GET'
         })
             .then((response) => response.json())
