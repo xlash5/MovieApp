@@ -125,13 +125,13 @@ class HomeScreen extends Component {
                     {(this.state.search.length > 0) ? <TouchableWithoutFeedback onPress={() => {
                         this.setState({ search: '', });
                     }}>
-                        <AntDesign name="arrowleft" size={40} color={Palette.textColor} />
+                        <AntDesign name="arrowleft" size={30} color={Palette.textColor} />
                     </TouchableWithoutFeedback> : null}
                     <TextInput
                         placeholderTextColor={Palette.textColor}
                         value={this.state.search}
                         style={styles.textInput}
-                        placeholder="Search"
+                        placeholder="Discover"
                         onChangeText={text => {
                             this.onSearch(text);
                         }}
@@ -139,8 +139,10 @@ class HomeScreen extends Component {
                     {(this.state.search.length > 0) ? <TouchableWithoutFeedback onPress={() => {
                         this.setState({ search: '', });
                     }}>
-                        <AntDesign name="close" size={40} color={Palette.textColor} />
-                    </TouchableWithoutFeedback> : null}
+                        <AntDesign name="close" size={30} color={Palette.textColor} />
+                    </TouchableWithoutFeedback> :
+                        <AntDesign name="search1" size={30} color={Palette.textColor} />
+                    }
                 </View>
                 {/* search bar text input end */}
                 {
@@ -241,6 +243,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
     searchBar: {
+        justifyContent: 'space-between',
         alignSelf: "center",
         alignItems: "center",
         marginTop: 50,
@@ -254,6 +257,7 @@ const styles = StyleSheet.create({
         borderColor: Palette.textColor,
     },
     textInput: {
+        fontSize: 22,
         paddingLeft: 10,
         color: Palette.textColor,
         height: '100%',
