@@ -11,8 +11,9 @@ class PlayerScreen extends Component {
         super(props);
         this.state = {
             title: props.route.params.title,
-            playing: true,
-            currentTime: 0,
+            videostatus: { isPlaying: true },
+            working: 0,
+            total: 100,
         }
     };
 
@@ -28,12 +29,22 @@ class PlayerScreen extends Component {
         this.setState({
             playing: !this.state.playing,
         });
-        if (this.state.playing) {
+        if (this.state.videostatus.isPlaying) {
             videoplayer.pauseAsync();
         } else {
             videoplayer.playAsync();
         }
     };
+
+    statusBar(a) {
+        let m = a.positionMillis / a.durationMillis * 100;
+        let work = a.positionMillis / 1000;
+        let full = a.durationMillis / 1000;
+        let fulltime = Math.round(full);
+        let time = Math.round(work);
+        let ab = Math.round(m);
+        this.setState({ videostatus: a, working: time, total: fulltime, percentage: m, baloon: ab });
+    }
 
 
     render() {
@@ -48,6 +59,7 @@ class PlayerScreen extends Component {
                     resizeMode="cover"
                     shouldPlay
                     style={styles.videoPlayer}
+                    onPlaybackStatusUpdate={(e) => this.statusBar(e)}
                 />
                 {/* BackButton */}
                 <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack(null)}>
@@ -67,15 +79,21 @@ class PlayerScreen extends Component {
                 </View>
                 {/* episode title */}
                 {/* backnward btn */}
-                <View style={styles.banckwardBtn}>
-                    <AntDesign name="banckward" size={50} color={Palette.textColor} />
-                </View>
+                <TouchableWithoutFeedback onPress={() => {
+                    this.state.working > 5 ?
+                        this.videoplayer.setPositionAsync(this.state.working - 5)
+                        : this.videoplayer.setPositionAsync(0)
+                }}>
+                    <View style={styles.banckwardBtn}>
+                        <AntDesign name="banckward" size={50} color={Palette.textColor} />
+                    </View>
+                </TouchableWithoutFeedback>
                 {/* backnward btn */}
                 {/* Play/Resume */}
                 <TouchableWithoutFeedback onPress={() => this.handlePlayPause(this.videoplayer)}>
                     <View style={styles.playResumeBtn}>
                         {
-                            this.state.playing ?
+                            this.state.videostatus.isPlaying ?
                                 <AntDesign name="pausecircleo" size={50} color={Palette.textColor} />
                                 :
                                 <AntDesign name="caretright" size={50} color={Palette.textColor} />
@@ -84,7 +102,7 @@ class PlayerScreen extends Component {
                 </TouchableWithoutFeedback>
                 {/* Play/Resume */}
                 {/* Forward btn */}
-                <TouchableWithoutFeedback onPress={() => { }}>
+                <TouchableWithoutFeedback onPress={() => { this.videoplayer.setPositionAsync(this.state.working + 5) }}>
                     <View style={styles.forwardBtn}>
                         <AntDesign name="forward" size={50} color={Palette.textColor} />
                     </View>
@@ -102,15 +120,18 @@ class PlayerScreen extends Component {
                 {/* Previous */}
                 {/* Progress indicator */}
                 <View style={styles.progressBar}>
+                    <Text style={styles.text}>{this.state.working.toFixed()}</Text>
                     <Slider
+                        onSlidingComplete={(val) => { this.videoplayer.setPositionAsync(val) }}
                         style={styles.slider}
-                        value={50}
+                        value={this.state.working.toFixed()}
                         minimumValue={0}
-                        maximumValue={100}
+                        maximumValue={this.state.total.toFixed()}
                         minimumTrackTintColor={Palette.primary}
                         maximumTrackTintColor={Palette.textColor}
                         thumbTintColor={Palette.textColor}
                     />
+                    <Text style={styles.text}>{this.state.total.toFixed()}</Text>
                 </View>
                 {/* Progress indicator */}
             </View>
@@ -131,23 +152,25 @@ const styles = StyleSheet.create({
     },
     backButton: {
         position: "absolute",
-        left: 10,
-        top: 10,
+        left: 50,
+        top: 20,
     },
     displayTitle: {
         position: "absolute",
-        left: 60,
-        top: 15,
+        left: 100,
+        top: 25,
+        paddingRight: 100,
     },
     displayTitleText: {
         fontSize: 24,
         color: Palette.textColor,
         fontWeight: "900",
+        flexWrap: 'wrap',
     },
     episodeTitle: {
         position: "absolute",
-        left: 60,
-        top: 45,
+        left: 100,
+        top: 80,
     },
     episodeTitleText: {
         fontSize: 18,
@@ -179,14 +202,19 @@ const styles = StyleSheet.create({
         top: '65%',
     },
     progressBar: {
+        flexDirection: 'row',
         position: "absolute",
-        left: 50,
-        width: '85%',
+        left: 80,
+        width: '80%',
         top: '85%',
     },
     slider: {
         width: '100%',
     },
+    text: {
+        color: Palette.textColor,
+        fontSize: 20,
+    }
 });
 
 export default PlayerScreen;

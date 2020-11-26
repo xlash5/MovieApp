@@ -241,34 +241,23 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
     },
     searchBar: {
-        marginTop: 25,
+        alignSelf: "center",
+        alignItems: "center",
+        marginTop: 50,
+        marginBottom: 10,
         flexDirection: "row",
-        width: '95%',
+        width: '90%',
         height: 50,
         paddingLeft: 10,
+        paddingRight: 10,
+        borderWidth: 0.5,
+        borderColor: Palette.textColor,
     },
     textInput: {
         paddingLeft: 10,
         color: Palette.textColor,
         height: '100%',
-        width: '76%',
-    },
-    searchItem: {
-        height: 220,
-        flexDirection: 'row',
-        marginVertical: 5,
-        marginHorizontal: 10,
-        backgroundColor: 'white',
-    },
-    searchItemLeft: {
-        height: '100%',
-        width: '45%',
-    },
-    searchItemRight: {
-        height: '100%',
-        width: '65%',
-        padding: 20,
-        paddingRight: 50,
+        width: '80%',
     },
 });
 
