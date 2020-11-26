@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, Text, TouchableWithoutFeedback, Platform } from 'react-native';
 import { Video } from 'expo-av';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { AntDesign } from '@expo/vector-icons';
@@ -124,9 +124,9 @@ class PlayerScreen extends Component {
                     <Slider
                         onSlidingComplete={(val) => { this.videoplayer.setPositionAsync(val) }}
                         style={styles.slider}
-                        value={this.state.working.toFixed()}
+                        value={Platform.OS === "android" ? this.state.working : this.state.working.toFixed()}
                         minimumValue={0}
-                        maximumValue={this.state.total.toFixed()}
+                        maximumValue={Platform.OS === "android" ? this.state.total : this.state.total.toFixed()}
                         minimumTrackTintColor={Palette.primary}
                         maximumTrackTintColor={Palette.textColor}
                         thumbTintColor={Palette.textColor}
