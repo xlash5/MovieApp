@@ -107,8 +107,8 @@ class PlayerScreen extends Component {
                         value={50}
                         minimumValue={0}
                         maximumValue={100}
-                        minimumTrackTintColor={Palette.textColor}
-                        maximumTrackTintColor='white'
+                        minimumTrackTintColor={Palette.primary}
+                        maximumTrackTintColor={Palette.textColor}
                         thumbTintColor={Palette.textColor}
                     />
                 </View>
