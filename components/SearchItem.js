@@ -68,9 +68,8 @@ const styles = StyleSheet.create({
     },
     searchItemRight: {
         height: '100%',
-        width: '70%',
+        width: '60%',
         padding: 10,
-        paddingRight: 50,
         justifyContent: 'space-between',
     },
     bottomRatings: {
